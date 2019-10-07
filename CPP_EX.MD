@@ -2,7 +2,7 @@
 
 ## 2.23
 
-不能 ，因为指针只相当于指向了一个地址，而地址中的内容是否有效是未知的`
+不能 ，因为指针只相当于指向了一个地址，而地址中的内容是否有效是未知的
 
 2.24 因为lp指针的类型不是int，而用void\*定义了p相当于p是一个空指针，可以存放任何类型的对象
 
@@ -34,71 +34,40 @@ ip是一个int类型的指针，ip2是一个int类型的变量。
 
 ```
 // copyright 2019 MoeKedama
-
-#include \&lt;iostream\&gt;
-
-#include \&lt;typeinfo\&gt;
+#include <iostream>
+#include <typeinfo>
 
 int main() {
-
   const int i = 42;
-
   auto j = i;
+  const auto &k = i;
+  auto *p = &i;
+  const auto j2 = i, &k2 = i;
 
-  const auto &amp;k = i;
+  std::cout << "i  is " << typeid(i).name() << std::endl;
+  std::cout << "j  is " << typeid(j).name() << std::endl;
+  std::cout << "k  is " << typeid(k).name() << std::endl;
+  std::cout << "p  is " << typeid(p).name() << std::endl;
+  std::cout << "j2 is " << typeid(j2).name() << std::endl;
+  std::cout << "k2 is " << typeid(k2).name() << std::endl;
 
-  auto \*p = &amp;i;
+  std::cout << std::boolalpha;
 
-  const auto j2 = i, &amp;k2 = i;
-
-  std::cout \&lt;\&lt; &quot;i  is &quot; \&lt;\&lt; typeid(i).name() \&lt;\&lt; std::endl;
-
-  std::cout \&lt;\&lt; &quot;j  is &quot; \&lt;\&lt; typeid(j).name() \&lt;\&lt; std::endl;
-
-  std::cout \&lt;\&lt; &quot;k  is &quot; \&lt;\&lt; typeid(k).name() \&lt;\&lt; std::endl;
-
-  std::cout \&lt;\&lt; &quot;p  is &quot; \&lt;\&lt; typeid(p).name() \&lt;\&lt; std::endl;
-
-  std::cout \&lt;\&lt; &quot;j2 is &quot; \&lt;\&lt; typeid(j2).name() \&lt;\&lt; std::endl;
-
-  std::cout \&lt;\&lt; &quot;k2 is &quot; \&lt;\&lt; typeid(k2).name() \&lt;\&lt; std::endl;
-
-  std::cout \&lt;\&lt; std::boolalpha;
-
-  std::cout \&lt;\&lt; &quot;i and j  have same type? &quot;
-
-​```
-        \&lt;\&lt; std::is\_same\&lt;decltype(i), decltype(j)\&gt;::value \&lt;\&lt; std::endl;
-​```
-
-  std::cout \&lt;\&lt; &quot;i and k  have same type? &quot;
-
-​```
-        \&lt;\&lt; std::is\_same\&lt;decltype(i), decltype(k)\&gt;::value \&lt;\&lt; std::endl;
-​```
-
-  std::cout \&lt;\&lt; &quot;i and j2 have same type? &quot;
-
-​```
-        \&lt;\&lt; std::is\_same\&lt;decltype(i), decltype(j2)\&gt;::value \&lt;\&lt; std::endl;
-​```
-
-  std::cout \&lt;\&lt; &quot;j and j2 have same type? &quot;
-
-​```
-        \&lt;\&lt; std::is\_same\&lt;decltype(j), decltype(j2)\&gt;::value \&lt;\&lt; std::endl;
-​```
-
-  std::cout \&lt;\&lt; &quot;k and k2 have same type? &quot;
-
-​```
-        \&lt;\&lt; std::is\_same\&lt;decltype(k), decltype(k2)\&gt;::value \&lt;\&lt; std::endl;
-​```
-
+  std::cout << "i and j  have same type? "
+            << std::is_same<decltype(i), decltype(j)>::value << std::endl;
+  std::cout << "i and k  have same type? "
+            << std::is_same<decltype(i), decltype(k)>::value << std::endl;
+  std::cout << "i and j2 have same type? "
+            << std::is_same<decltype(i), decltype(j2)>::value << std::endl;
+  std::cout << "j and j2 have same type? "
+            << std::is_same<decltype(j), decltype(j2)>::value << std::endl;
+  std::cout << "k and k2 have same type? "
+            << std::is_same<decltype(k), decltype(k2)>::value << std::endl;
   return 0;
-
 }
 ```
+
+
 
 ------
 
@@ -108,62 +77,41 @@ int main() {
 
 ```
 // copyright 2019 MoeKedama
-
-#include \&lt;iostream\&gt;
-
-#include \&lt;string\&gt;
+#include <iostream>
+#include <string>
 
 int main() {
+    std::string str1, str2;
+    while (std::cin >> str1 >> str2) {
+        if (str1 == str2)
+            std::cout << "equal." << std::endl;
+        else
 
-​```
-std::string str1, str2;
+            std::cout << ((str1 > str2) ? str1 : str2) << std::endl;
+    }
 
-while (std::cin \&gt;\&gt; str1 \&gt;\&gt; str2) {
-
-    if (str1 == str2)
-
-        std::cout \&lt;\&lt; &quot;equal.&quot; \&lt;\&lt; std::endl;
-
-    else
-
-        std::cout \&lt;\&lt; ((str1 \&gt; str2) ? str1 : str2) \&lt;\&lt; std::endl;
-
+    return 0;
 }
 
-return 0;
-​```
-
-}
 ```
 
 ```
 // copyright 2019 MoeKedama
-
-#include \&lt;iostream\&gt;
-
-#include \&lt;string\&gt;
+#include <iostream>
+#include <string>
 
 int main() {
+    std::string str1, str2;
+    while (std::cin >> str1 >> str2) {
+        if (str1.size() == str2.size())
+            std::cout << "same" << std::endl;
+        else
+            std::cout << ((str1.size() > str2.size()) ? str1 : str2) << endl;
+    }
 
-​```
-std::string str1, str2;
-
-while (std::cin \&gt;\&gt; str1 \&gt;\&gt; str2) {
-
-    if (str1.size() == str2.size())
-
-        std::cout \&lt;\&lt; &quot;same&quot; \&lt;\&lt; std::endl;
-
-    else
-
-        std::cout \&lt;\&lt; ((str1.size() \&gt; str2.size()) ? str1 : str2) \&lt;\&lt; endl;
-
+    return 0;
 }
 
-return 0;
-​```
-
-}
 ```
 
 
@@ -172,64 +120,41 @@ return 0;
 
 ```
 // copyright 2019 MoeKedama
-
-#include \&lt;iostream\&gt;
-
-#include \&lt;string\&gt;
+#include <iostream>
+#include <string>
 
 int main() {
+    std::string largeStr;
+    std::string str;
+    while (std::cin >> str) {
+        largeStr += str;
+    }
+    std::cout << largeStr << std::endl;
 
-​```
-std::string largeStr;
-
-std::string str;
-
-while (std::cin \&gt;\&gt; str) {
-
-    largeStr += str;
-
+    return 0;
 }
 
-std::cout \&lt;\&lt; largeStr \&lt;\&lt; std::endl;
-
-return 0;
-​```
-
-}
 ```
 
 ```
 // copyright 2019 MoeKedama
-
-#include \&lt;iostream\&gt;
-
-#include \&lt;string\&gt;
+#include <iostream>
+#include <string>
 
 int main() {
+    std::string largeStr;
+    std::string str;
+    while (std::cin >> str) {
+        if (largeStr.empty())
+            largeStr += str;
+        else
+            largeStr += " " + str;
+    }
 
-​```
-std::string largeStr;
-
-std::string str;
-
-while (std::cin \&gt;\&gt; str) {
-
-    if (largeStr.empty())
-
-        largeStr += str;
-
-    else
-
-        largeStr += &quot; &quot; + str;
-
+    std::cout << largeStr << std::endl;
+    return 0;
 }
 
-std::cout \&lt;\&lt; largeStr \&lt;\&lt; std::endl;
-
-return 0;
-​```
-
-}
 ```
 
 ------
@@ -240,68 +165,43 @@ return 0;
 
 ```
 // copyright 2019 MoeKedama
-
-#include \&lt;iostream\&gt;
-
-#include \&lt;vector\&gt;
+#include <iostream>
+#include <vector>
 
 using std::vector;
-
 using std::cout;
-
 using std::endl;
-
 using std::cin;
 
 int main() {
+    vector<int> ivec;
+    int i;
+    while (cin >> i) ivec.push_back(i);
 
-​```
-vector\&lt;int\&gt; ivec;
+    if (ivec.empty()) {
+        cout << "input at least one integer." << endl;
+        return -1;
+    } else if (ivec.size() == 1) {
+        cout << ivec[0] << " don't have any adjacent elements.";
+    } else {
+        for (decltype(ivec.size()) i = 0; i != ivec.size() - 1; ++i)
+            cout << ivec[i] + ivec[i + 1] << " ";
+    }
+    cout << endl;
 
-int i;
+    decltype(ivec.size()) size = ivec.size();
+    if (size % 2 != 0)
+        size = size / 2 + 1;
+    else
+        size /= 2;
 
-while (cin \&gt;\&gt; i) ivec.push\_back(i);
+    for (decltype(ivec.size()) i = 0; i != size; ++i)
+        cout << ivec[i] + ivec[ivec.size() - i - 1] << " ";
+    cout << endl;
 
-if (ivec.empty()) {
-
-    cout \&lt;\&lt; &quot;input at least one integer.&quot; \&lt;\&lt; endl;
-
-    return -1;
-
-} else if (ivec.size() == 1) {
-
-    cout \&lt;\&lt; ivec[0] \&lt;\&lt; &quot; don&#39;t have any adjacent elements.&quot;;
-
-} else {
-
-    for (decltype(ivec.size()) i = 0; i != ivec.size() - 1; ++i)
-
-        cout \&lt;\&lt; ivec[i] + ivec[i + 1] \&lt;\&lt; &quot; &quot;;
-
+    return 0;
 }
 
-cout \&lt;\&lt; endl;
-
-decltype(ivec.size()) size = ivec.size();
-
-if (size % 2 != 0)
-
-    size = size / 2 + 1;
-
-else
-
-    size /= 2;
-
-for (decltype(ivec.size()) i = 0; i != size; ++i)
-
-    cout \&lt;\&lt; ivec[i] + ivec[ivec.size() - i - 1] \&lt;\&lt; &quot; &quot;;
-
-cout \&lt;\&lt; endl;
-
-return 0;
-​```
-
-}
 ```
 
 ------
@@ -312,36 +212,24 @@ return 0;
 
 ```
 // copyright 2019 MoeKedama
-
-#include \&lt;vector\&gt;
-
-#include \&lt;iostream\&gt;
-
-#include \&lt;iterator\&gt;
+#include <vector>
+#include <iostream>
+#include <iterator>
 
 using std::vector;
-
 using std::iterator;
-
 using std::cout;
-
 using std::endl;
 
 int main() {
+    vector<int> ivec(10, 1);
+    for (auto it = ivec.begin(); it != ivec.end(); ++it) *it *= 2;
+    for (auto value : ivec) cout << value << " ";
+    cout << endl;
 
-​```
-vector\&lt;int\&gt; ivec(10, 1);
-
-for (auto it = ivec.begin(); it != ivec.end(); ++it) \*it \*= 2;
-
-for (auto value : ivec) cout \&lt;\&lt; value \&lt;\&lt; &quot; &quot;;
-
-cout \&lt;\&lt; endl;
-
-return 0;
-​```
-
+    return 0;
 }
+
 ```
 
 ------
@@ -352,44 +240,27 @@ return 0;
 
 ```
 // copyright 2019 MoeKedama
-
-#include \&lt;iostream\&gt;
-
-#include \&lt;stdexcept\&gt;
-
-#include \&lt;string\&gt;
+#include <iostream>
+#include <stdexcept>
+#include <string>
 
 using std::cin;
-
 using std::cout;
-
 using std::endl;
 
-void swap(int\* const lhs, int\* const rhs) {
-
-​```
-auto tmp = \*lhs;
-
-\*lhs = \*rhs;
-
-\*rhs = tmp;
-​```
-
+void swap(int* const lhs, int* const rhs) {
+    auto tmp = *lhs;
+    *lhs = *rhs;
+    *rhs = tmp;
 }
 
 int main() {
-
-​```
-for (int lht, rht; cin \&gt;\&gt; lht \&gt;\&gt; rht;) {
-
-    swap(&amp;lht, &amp;rht);
-
-    cout \&lt;\&lt; lht \&lt;\&lt; &quot; &quot; \&lt;\&lt; rht \&lt;\&lt; endl;
-
+    for (int lht, rht; cin >> lht >> rht;) {
+        swap(&lht, &rht);
+        cout << lht << " " << rht << endl;
+    }
 }
-​```
 
-}
 ```
 
 ------
@@ -452,118 +323,65 @@ for (int lht, rht; cin \&gt;\&gt; lht \&gt;\&gt; rht;) {
 
 ```
 // copyright 2019 MoeKedama
+#ifndef C7_27_h
+#define C7_27_h
 
-#ifndef C7\_27\_h
-
-#define C7\_27\_h
-
-#include \&lt;string\&gt;
-
-#include \&lt;iostream\&gt;
-
+#include <string>
+#include <iostream>
 class Screen {
-
 public:
+    using pos = std::string::size_type;
+    Screen() = default; // 1
+    Screen(pos ht, pos wd) : height(ht), width(wd), contents(ht * wd, ' ') {} // 2
+    Screen(pos ht, pos wd, char c) : height(ht), width(wd), contents(ht * wd, c)
+    {
+    } 
+    char get() const { return contents[cursor]; }
+    char get(pos r, pos c) const { return contents[r * width + c]; }
+    inline Screen& move(pos r, pos c);
+    inline Screen& set(char c);
+    inline Screen& set(pos r, pos c, char ch);
 
-​```
-using pos = std::string::size\_type;
-
-Screen() = default; // 1
-
-Screen(pos ht, pos wd) : height(ht), width(wd), contents(ht \* wd, &#39; &#39;) {} // 2
-
-Screen(pos ht, pos wd, char c) : height(ht), width(wd), contents(ht \* wd, c)
-
-{
-
-}
-
-char get() const { return contents[cursor]; }
-
-char get(pos r, pos c) const { return contents[r \* width + c]; }
-
-inline Screen&amp; move(pos r, pos c);
-
-inline Screen&amp; set(char c);
-
-inline Screen&amp; set(pos r, pos c, char ch);
-
-const Screen&amp; display(std::ostream&amp; os) const
-
-{
-
-    do\_display(os);
-
-    return \*this;
-
-}
-
-Screen&amp; display(std::ostream&amp; os)
-
-{
-
-    do\_display(os);
-
-    return \*this;
-
-}
-​```
+    const Screen& display(std::ostream& os) const
+    {
+        do_display(os);
+        return *this;
+    }
+    Screen& display(std::ostream& os)
+    {
+        do_display(os);
+        return *this;
+    }
 
 private:
-
-​```
-void do\_display(std::ostream&amp; os) const { os \&lt;\&lt; contents; }
-​```
+    void do_display(std::ostream& os) const { os << contents; }
 
 private:
-
-​```
-pos cursor = 0;
-
-pos height = 0, width = 0;
-
-std::string contents;
-​```
-
+    pos cursor = 0;
+    pos height = 0, width = 0;
+    std::string contents;
 };
 
-inline Screen&amp; Screen::move(pos r, pos c)
-
+inline Screen& Screen::move(pos r, pos c)
 {
-
-​```
-cursor = r \* width + c;
-
-return \*this;
-​```
-
+    cursor = r * width + c;
+    return *this;
 }
 
-inline Screen&amp; Screen::set(char c)
-
+inline Screen& Screen::set(char c)
 {
-
-​```
-contents[cursor] = c;
-
-return \*this;
-​```
-
+    contents[cursor] = c;
+    return *this;
 }
 
-inline Screen&amp; Screen::set(pos r, pos c, char ch)
-
+inline Screen& Screen::set(pos r, pos c, char ch)
 {
-
-​```
-contents[r \* width + c] = ch;
-
-return \*this;
-​```
-
+    contents[r * width + c] = ch;
+    return *this;
 }
 
 #endif
+
 ```
 
 ------
