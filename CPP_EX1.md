@@ -1,6 +1,6 @@
 ## P301 9.11
 
-```
+```cpp
 vector<int> vec;    // 0
 vector<int> vec(10);    // 0
 vector<int> vec(10,1);  // 1
